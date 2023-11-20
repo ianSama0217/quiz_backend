@@ -5,21 +5,27 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "question")
 public class Question {
 
 	@Column(name = "quiz_id")
+	@JsonProperty("quiz_id")
 	private int quizId;
 
 	@Id
 	@Column(name = "q_id")
+	@JsonProperty("q_id")
 	private int qId;
 
 	@Column(name = "q_name")
+	@JsonProperty("q_name")
 	private String qName;
 
 	@Column(name = "selection_type")
+	@JsonProperty("selection_type")
 	private String seleType;
 
 	public Question() {

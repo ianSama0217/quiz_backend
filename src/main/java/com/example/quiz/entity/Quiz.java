@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "quiz")
 public class Quiz {
@@ -25,9 +27,11 @@ public class Quiz {
 	private String state;
 
 	@Column(name = "start_time")
+	@JsonProperty("start_time")
 	private LocalDate startTime;
 
 	@Column(name = "end_time")
+	@JsonProperty("end_time")
 	private LocalDate endTime;
 
 	public Quiz() {

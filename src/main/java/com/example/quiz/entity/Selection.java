@@ -5,21 +5,26 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "selection")
 public class Selection {
 
 	@Column(name = "q_id")
+	@JsonProperty("q_id")
 	private int qId;
 
 	@Id
 	@Column(name = "sele_id")
+	@JsonProperty("sele_id")
 	private int seleId;
 
 	@Column(name = "content")
 	private String content;
 
 	@Column(name = "ans_count")
+	@JsonProperty("ans_count")
 	private int ansCount;
 
 	public Selection() {
