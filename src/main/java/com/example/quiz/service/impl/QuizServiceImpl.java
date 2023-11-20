@@ -1,5 +1,7 @@
 package com.example.quiz.service.impl;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,20 @@ public class QuizServiceImpl implements QuizServer {
 		}
 		return new QuizRes(RtnCode.SUCCESSFUL, req);
 
+	}
+
+	@Override
+	public QuizRes updateQuiz(QuizReq req) {
+
+		return null;
+	}
+
+	@Override
+	public QuizRes searchQuiz(String title, LocalDate startDate, LocalDate endDate) {
+
+		System.out.println("°Ý¨÷¦s¦b");
+
+		return null;
 	}
 
 	@Override

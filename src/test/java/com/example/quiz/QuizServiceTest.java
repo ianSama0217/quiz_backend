@@ -37,6 +37,12 @@ public class QuizServiceTest {
 	}
 
 	@Test
+	public void searchQuizTest() {
+
+		quizServer.searchQuiz("¥Á½Õ", LocalDate.of(2000, 2, 2), LocalDate.of(2000, 2, 7));
+	}
+
+	@Test
 	public void deleteAllTest() {
 		quizServer.deleteQuiz();
 	}
