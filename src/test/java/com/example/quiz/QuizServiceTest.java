@@ -11,12 +11,23 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.example.quiz.entity.Question;
 import com.example.quiz.entity.Quiz;
 import com.example.quiz.entity.Selection;
+import com.example.quiz.repository.QuestionDao;
 import com.example.quiz.repository.QuizDao;
+import com.example.quiz.repository.SelectionDao;
 import com.example.quiz.service.ifs.QuizServer;
 import com.example.quiz.vo.QuizReq;
+import com.example.quiz.vo.QuizSearchRes;
 
 @SpringBootTest
 public class QuizServiceTest {
+	@Autowired
+	private QuizDao quizDao;
+
+	@Autowired
+	private QuestionDao questionDao;
+
+	@Autowired
+	private SelectionDao selectionDao;
 
 	@Autowired
 	private QuizServer quizServer;
@@ -38,12 +49,19 @@ public class QuizServiceTest {
 
 	@Test
 	public void searchQuizTest() {
+		QuizSearchRes res = quizServer.searchQuiz("1");
+		List<Quiz> quizs = res.getQuizs();
 
-		quizServer.searchQuiz("¥Á½Õ", LocalDate.of(2000, 2, 2), LocalDate.of(2000, 2, 7));
+		for (Quiz quiz : quizs) {
+			System.out.println(quiz.getTitle());
+		}
 	}
 
 	@Test
 	public void deleteAllTest() {
-		quizServer.deleteQuiz();
+		quizDao.deleteAll();
+		questionDao.deleteAll();
+		selectionDao.deleteAll();
 	}
+
 }
