@@ -4,7 +4,7 @@ import com.example.quiz.vo.QuizReq;
 import com.example.quiz.vo.QuizRes;
 import com.example.quiz.vo.QuizSearchRes;
 
-public interface QuizServer {
+public interface QuizService {
 	public QuizRes createQuiz(QuizReq req);
 
 	public QuizRes updateQuiz(QuizReq req);

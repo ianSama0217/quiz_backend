@@ -16,13 +16,13 @@ import com.example.quiz.entity.Selection;
 import com.example.quiz.repository.QuestionDao;
 import com.example.quiz.repository.QuizDao;
 import com.example.quiz.repository.SelectionDao;
-import com.example.quiz.service.ifs.QuizServer;
+import com.example.quiz.service.ifs.QuizService;
 import com.example.quiz.vo.QuizReq;
 import com.example.quiz.vo.QuizRes;
 import com.example.quiz.vo.QuizSearchRes;
 
 @Service
-public class QuizServiceImpl implements QuizServer {
+public class QuizServiceImpl implements QuizService {
 
 	@Autowired
 	private QuizDao quizDao;

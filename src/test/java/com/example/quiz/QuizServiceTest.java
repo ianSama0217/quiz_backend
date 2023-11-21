@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.example.quiz.entity.Question;
 import com.example.quiz.entity.Quiz;
 import com.example.quiz.entity.Selection;
-import com.example.quiz.service.ifs.QuizServer;
+import com.example.quiz.service.ifs.QuizService;
 import com.example.quiz.vo.QuizReq;
 import com.example.quiz.vo.QuizSearchRes;
 
@@ -19,7 +19,7 @@ import com.example.quiz.vo.QuizSearchRes;
 public class QuizServiceTest {
 
 	@Autowired
-	private QuizServer quizServer;
+	private QuizService quizServer;
 
 	@Test
 	public void createQuizTest() {
@@ -131,7 +131,7 @@ public class QuizServiceTest {
 		quizServer.deleteQuiz(0);
 		// 存在qid(有question & selection)
 		System.out.println("-----存在的quizid-----");
-		quizServer.deleteQuiz(4);
+		quizServer.deleteQuiz(2);
 	}
 
 }

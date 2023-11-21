@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.quiz.service.ifs.QuizServer;
+import com.example.quiz.service.ifs.QuizService;
 import com.example.quiz.vo.QuizReq;
 import com.example.quiz.vo.QuizRes;
 import com.example.quiz.vo.QuizSearchReq;
@@ -19,24 +19,39 @@ import com.example.quiz.vo.QuizSearchRes;
 public class QuizController {
 
 	@Autowired
-	private QuizServer server;
+	private QuizService service;
 
-	@PostMapping(value = "api/quiz/create")
+	@PostMapping(value = "quiz/create")
 	public QuizRes createQuiz(@RequestBody QuizReq req) {
-		return server.createQuiz(req);
+		return service.createQuiz(req);
 	}
 
-//	@GetMapping(value = "api/quiz/search")
+//	@GetMapping(value = "quiz/search")
 //	public QuizSearchRes searchQuiz(@RequestParam(required = false) QuizSearchReq req) {
-//		return server.searchQuiz(req.getTitle(), req.getState());
+//		return service.searchQuiz(req.getTitle(), req.getState());
 //	}
 
-	@GetMapping(value = "api/quiz/search")
+	@GetMapping(value = "quiz/search")
 	public QuizSearchRes searchQuiz(
 			/* required設為false表示參數是可以不輸入的 */
 			@RequestParam(required = false) String title,
 			@RequestParam(required = false) String state) {
-		return server.searchQuiz(title, state);
+		return service.searchQuiz(title, state);
+	}
+	
+	@PostMapping(value = "quiz/delete")
+	public QuizRes deleteQuiz(@RequestParam int id) {
+		return service.deleteQuiz(id);
+	}
+	
+	@PostMapping(value = "question/delete")
+	public QuizRes deleteQuestion(@RequestParam int qId) {
+		return service.deleteQuestion(qId);
+	}
+	
+	@PostMapping(value = "selection/delete")
+	public QuizRes deleteSelection(@RequestParam int seleId) {
+		return service.deleteSelection(seleId);
 	}
 
 }
