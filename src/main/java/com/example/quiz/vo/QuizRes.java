@@ -22,11 +22,15 @@ public class QuizRes {
 		// TODO Auto-generated constructor stub
 	}
 
+	public QuizRes(RtnCode rtnCode) {
+		super();
+		this.rtnCode = rtnCode;
+	}
+
 	public QuizRes(RtnCode rtnCode, Quiz quiz) {
 		super();
 		this.rtnCode = rtnCode;
 		this.quiz = quiz;
-
 	}
 
 	public QuizRes(RtnCode rtnCode, Quiz quiz, List<Question> question, List<Selection> selection) {

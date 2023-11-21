@@ -7,9 +7,16 @@ import com.example.quiz.entity.Selection;
 
 @Repository
 public interface SelectionDao extends JpaRepository<Selection, Integer> {
-
+	
 	/**
-	 * 刪除question，將對應id的資料也刪除
+	 * 尋找sele對應qid的資料是否存在
 	 **/
-	public void deleteByqId(int qId);
+	public boolean existsByqId(int qId);
+	
+	/**
+	 * 將對應qid的selection資料也刪除
+	 **/
+	public void deleteAllByqId(int qId);
+	
+	
 }

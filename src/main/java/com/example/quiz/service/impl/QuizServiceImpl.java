@@ -3,6 +3,8 @@ package com.example.quiz.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -38,9 +40,9 @@ public class QuizServiceImpl implements QuizServer {
 		List<Question> questions = req.getQuestion();
 		List<Selection> selections = req.getSelection();
 
-		// id<=0 和 title是空值->跳出
-		if (quiz.getId() > 0 && StringUtils.isEmpty(quiz.getTitle())) {
-			return new QuizRes(RtnCode.QUESTIONNAIRE_ERROR, null);
+		// id<=0 或 title是空值->跳出
+		if (quiz.getId() <= 0 || !StringUtils.hasText(quiz.getTitle())) {
+			return new QuizRes(RtnCode.QUIZ_ERROR, null);
 		}
 
 		quizDao.save(quiz);
@@ -82,35 +84,58 @@ public class QuizServiceImpl implements QuizServer {
 		return new QuizSearchRes(RtnCode.SUCCESSFUL, quizs);
 	}
 
+	@Transactional
 	@Override
-	public QuizRes deleteQuiz(QuizReq req) {
-		Quiz quiz = req.getQuiz();
-
+	public QuizRes deleteQuiz(int id) {
 		// 如果DB存在資料，刪除資料表
-		if (quizDao.existsById(quiz.getId())) {
-			quizDao.deleteById(quiz.getId());
-//			questionDao.deleteById(id);
-//			seleDao.deleteById(id);
-		}
+		if (quizDao.existsById(id)) {
+			quizDao.deleteById(id);
+			System.out.println("成功刪除問卷");
+			// 如果quiz底下還對應的question也要刪除
+			if (questionDao.existsByquizId(id)) {
+				// 取得question的qId(用來刪除selection)
+				List<Question> questions = questionDao.findAllByquizId(id);
 
-		return null;
+				questionDao.deleteAllByquizId(id);
+				System.out.println("成功刪除問卷內的題目");
+
+				// 如果question底下還對應的selection也要刪除
+				for (Question ques : questions) {
+					// 刪除對應qid的selection資料
+					if (seleDao.existsByqId(ques.getqId())) {
+						seleDao.deleteAllByqId(ques.getqId());
+					}
+				}
+			}
+			return new QuizRes(RtnCode.SUCCESSFUL);
+		}
+		return new QuizRes(RtnCode.QUIZ_ID_NOT_FOUND);
 	}
 
+	@Transactional
 	@Override
-	public QuizRes deleteQuestion(List<Integer> qIds) {
+	public QuizRes deleteQuestion(int qId) {
 
-		questionDao.deleteAllById(qIds);
+		if (questionDao.existsById(qId)) {
+			questionDao.deleteById(qId);
+			// 如果question底下還對應的selection也要刪除
+			if (seleDao.existsByqId(qId)) {
+				seleDao.deleteAllByqId(qId);
+			}
+			return new QuizRes(RtnCode.SUCCESSFUL);
+		}
 
-		// 如果question底下還對應的選項也要刪除
-
-		return null;
+		return new QuizRes(RtnCode.QUESTION_ID_NOT_FOUND);
 	}
 
 	@Override
 	public QuizRes deleteSelection(int seleId) {
+		if (seleDao.existsById(seleId)) {
+			seleDao.deleteById(seleId);
+			return new QuizRes(RtnCode.SUCCESSFUL);
+		}
 
-		seleDao.deleteById(seleId);
-		return new QuizRes(RtnCode.SUCCESSFUL, null);
+		return new QuizRes(RtnCode.SELECTION_ID_NOT_FOUND);
 	}
 
 }

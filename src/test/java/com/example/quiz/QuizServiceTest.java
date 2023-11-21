@@ -20,14 +20,6 @@ import com.example.quiz.vo.QuizSearchRes;
 
 @SpringBootTest
 public class QuizServiceTest {
-	@Autowired
-	private QuizDao quizDao;
-
-	@Autowired
-	private QuestionDao questionDao;
-
-	@Autowired
-	private SelectionDao selectionDao;
 
 	@Autowired
 	private QuizServer quizServer;
@@ -45,6 +37,32 @@ public class QuizServiceTest {
 		selections.add(new Selection(1, 3, "藍白拖", 0));
 
 		quizServer.createQuiz(new QuizReq(quiz, questions, selections));
+
+		quiz = new Quiz(3, "滿意度調查", "填寫餐廳問卷滿意度", "發布中", LocalDate.of(2023, 11, 1), LocalDate.of(2023, 12, 31));
+		questions = new ArrayList<Question>();
+		questions.add(new Question(3, 6, "今天用餐滿意度?", "radio"));
+		questions.add(new Question(3, 7, "更多意見", "textarea"));
+
+		selections = new ArrayList<Selection>();
+		selections.add(new Selection(6, 13, "非常滿意", 25));
+		selections.add(new Selection(6, 14, "普通", 0));
+		selections.add(new Selection(6, 15, "非常不滿意", 0));
+
+		quizServer.createQuiz(new QuizReq(quiz, questions, selections));
+
+		quiz = new Quiz(4, "人氣主播票選", "選出2023最受歡迎的主播", "尚未開始", LocalDate.of(2023, 12, 25), LocalDate.of(2023, 12, 31));
+		questions = new ArrayList<Question>();
+		questions.add(new Question(4, 8, "誰是你最喜歡的主播", "checkbox"));
+		questions.add(new Question(4, 9, "為啥", "textarea"));
+		questions.add(new Question(4, 10, "想對他說的話", "textarea"));
+
+		selections = new ArrayList<Selection>();
+		selections.add(new Selection(8, 16, "嘎痛", 0));
+		selections.add(new Selection(8, 17, "陌生人", 0));
+		selections.add(new Selection(8, 18, "拖椅子", 0));
+		selections.add(new Selection(8, 19, "館長", 0));
+
+		quizServer.createQuiz(new QuizReq(quiz, questions, selections));
 	}
 
 	@Test
@@ -58,10 +76,29 @@ public class QuizServiceTest {
 	}
 
 	@Test
-	public void deleteAllTest() {
-		quizDao.deleteAll();
-		questionDao.deleteAll();
-		selectionDao.deleteAll();
+	public void deleteSeleTest() {
+		// 不存在seleid
+		quizServer.deleteSelection(0);
+		// 存在seleid
+		quizServer.deleteSelection(11);
+	}
+
+	@Test
+	public void deleteQuesTest() {
+		// 不存在qid
+		quizServer.deleteQuestion(0);
+		// 存在qid(有選項)
+		quizServer.deleteQuestion(1);
+		// 存在qid
+		quizServer.deleteQuestion(2);
+	}
+
+	@Test
+	public void deleteQuizTest() {
+		// 不存在qid
+		quizServer.deleteQuiz(0);
+		// 存在qid(有question & selection)
+		quizServer.deleteQuiz(4);
 	}
 
 }
