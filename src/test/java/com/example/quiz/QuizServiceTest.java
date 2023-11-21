@@ -11,9 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.example.quiz.entity.Question;
 import com.example.quiz.entity.Quiz;
 import com.example.quiz.entity.Selection;
-import com.example.quiz.repository.QuestionDao;
-import com.example.quiz.repository.QuizDao;
-import com.example.quiz.repository.SelectionDao;
 import com.example.quiz.service.ifs.QuizServer;
 import com.example.quiz.vo.QuizReq;
 import com.example.quiz.vo.QuizSearchRes;
@@ -67,8 +64,37 @@ public class QuizServiceTest {
 
 	@Test
 	public void searchQuizTest() {
-		QuizSearchRes res = quizServer.searchQuiz("1");
+		// null
+		System.out.println("-----沒有條件-----");
+		QuizSearchRes res = quizServer.searchQuiz(null, null);
 		List<Quiz> quizs = res.getQuizs();
+
+		for (Quiz quiz : quizs) {
+			System.out.println(quiz.getTitle());
+		}
+
+		// 只有title
+		System.out.println("-----只有title-----");
+		res = quizServer.searchQuiz("調", null);
+		quizs = res.getQuizs();
+
+		for (Quiz quiz : quizs) {
+			System.out.println(quiz.getTitle());
+		}
+
+		// 只有state
+		System.out.println("-----只有state-----");
+		res = quizServer.searchQuiz(null, "尚未開始");
+		quizs = res.getQuizs();
+
+		for (Quiz quiz : quizs) {
+			System.out.println(quiz.getTitle());
+		}
+
+		// 兩個條件
+		System.out.println("-----兩個條件都有-----");
+		res = quizServer.searchQuiz("調", "發布中");
+		quizs = res.getQuizs();
 
 		for (Quiz quiz : quizs) {
 			System.out.println(quiz.getTitle());
@@ -78,26 +104,33 @@ public class QuizServiceTest {
 	@Test
 	public void deleteSeleTest() {
 		// 不存在seleid
+		System.out.println("-----不存在的seleid-----");
 		quizServer.deleteSelection(0);
 		// 存在seleid
+		System.out.println("-----存在的seleid-----");
 		quizServer.deleteSelection(11);
 	}
 
 	@Test
 	public void deleteQuesTest() {
 		// 不存在qid
+		System.out.println("-----不存在的qid-----");
 		quizServer.deleteQuestion(0);
 		// 存在qid(有選項)
+		System.out.println("-----存在的qid(有選像)-----");
 		quizServer.deleteQuestion(1);
 		// 存在qid
+		System.out.println("-----存在的qid-----");
 		quizServer.deleteQuestion(2);
 	}
 
 	@Test
 	public void deleteQuizTest() {
-		// 不存在qid
+		// 不存在quizid
+		System.out.println("-----不存在的quizid-----");
 		quizServer.deleteQuiz(0);
 		// 存在qid(有question & selection)
+		System.out.println("-----存在的quizid-----");
 		quizServer.deleteQuiz(4);
 	}
 

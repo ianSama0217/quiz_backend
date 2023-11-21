@@ -70,17 +70,30 @@ public class QuizServiceImpl implements QuizServer {
 	}
 
 	@Override
-	public QuizSearchRes searchQuiz(String title) {
+	public QuizSearchRes searchQuiz(String title, String state) {
 		List<Quiz> quizs = new ArrayList<Quiz>();
 
-		// 搜尋欄沒有文字 ->顯示全部
-		if (!StringUtils.hasText(title)) {
+		// 搜尋欄沒有文字 & 狀態是空 ->顯示全部
+		if (!StringUtils.hasText(title) && !StringUtils.hasText(state)) {
 			// 顯示全部問卷
 			quizs = quizDao.findAll();
-			return new QuizSearchRes(RtnCode.SUCCESSFUL, quizs);
 		}
 
-		quizs = quizDao.findByTitleContaining(title);
+		// 只有title & 狀態是空
+		if (StringUtils.hasText(title) && !StringUtils.hasText(state)) {
+			quizs = quizDao.findByTitleContaining(title);
+		}
+
+		// 只有狀態 & title是空
+		if (!StringUtils.hasText(title) && StringUtils.hasText(state)) {
+			quizs = quizDao.findByState(state);
+		}
+
+		// title和狀態都有
+		if (StringUtils.hasText(title) && StringUtils.hasText(state)) {
+			quizs = quizDao.findByTitleContainingAndState(title, state);
+		}
+
 		return new QuizSearchRes(RtnCode.SUCCESSFUL, quizs);
 	}
 
