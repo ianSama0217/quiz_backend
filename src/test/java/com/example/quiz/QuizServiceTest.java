@@ -19,11 +19,13 @@ import com.example.quiz.vo.QuizSearchRes;
 public class QuizServiceTest {
 
 	@Autowired
-	private QuizService quizServer;
+	private QuizService quizService;
 
 	@Test
 	public void createQuizTest() {
-		Quiz quiz = new Quiz(1, "民調", "到底是藍白合還是藍白拖", "已結束", LocalDate.of(2023, 11, 17), LocalDate.of(2023, 11, 20));
+		Quiz quiz = new Quiz();
+		quiz = new Quiz(1, "民調", "到底是藍白合還是藍白拖", "已結束", LocalDate.of(2023, 11, 17), LocalDate.of(2023, 11, 20));
+
 		List<Question> questions = new ArrayList<Question>();
 		questions.add(new Question(1, 1, "猴柯配?", "radio"));
 		questions.add(new Question(1, 2, "為啥", "textarea"));
@@ -33,7 +35,7 @@ public class QuizServiceTest {
 		selections.add(new Selection(1, 2, "猴科配", 0));
 		selections.add(new Selection(1, 3, "藍白拖", 0));
 
-		quizServer.createQuiz(new QuizReq(quiz, questions, selections));
+		quizService.createQuiz(new QuizReq(quiz, questions, selections));
 
 		quiz = new Quiz(3, "滿意度調查", "填寫餐廳問卷滿意度", "發布中", LocalDate.of(2023, 11, 1), LocalDate.of(2023, 12, 31));
 		questions = new ArrayList<Question>();
@@ -45,7 +47,7 @@ public class QuizServiceTest {
 		selections.add(new Selection(6, 14, "普通", 0));
 		selections.add(new Selection(6, 15, "非常不滿意", 0));
 
-		quizServer.createQuiz(new QuizReq(quiz, questions, selections));
+		quizService.createQuiz(new QuizReq(quiz, questions, selections));
 
 		quiz = new Quiz(4, "人氣主播票選", "選出2023最受歡迎的主播", "尚未開始", LocalDate.of(2023, 12, 25), LocalDate.of(2023, 12, 31));
 		questions = new ArrayList<Question>();
@@ -59,14 +61,14 @@ public class QuizServiceTest {
 		selections.add(new Selection(8, 18, "拖椅子", 0));
 		selections.add(new Selection(8, 19, "館長", 0));
 
-		quizServer.createQuiz(new QuizReq(quiz, questions, selections));
+		quizService.createQuiz(new QuizReq(quiz, questions, selections));
 	}
 
 	@Test
 	public void searchQuizTest() {
 		// null
 		System.out.println("-----沒有條件-----");
-		QuizSearchRes res = quizServer.searchQuiz(null, null);
+		QuizSearchRes res = quizService.searchQuiz(null, null);
 		List<Quiz> quizs = res.getQuizs();
 
 		for (Quiz quiz : quizs) {
@@ -75,7 +77,7 @@ public class QuizServiceTest {
 
 		// 只有title
 		System.out.println("-----只有title-----");
-		res = quizServer.searchQuiz("調", null);
+		res = quizService.searchQuiz("調", null);
 		quizs = res.getQuizs();
 
 		for (Quiz quiz : quizs) {
@@ -84,7 +86,7 @@ public class QuizServiceTest {
 
 		// 只有state
 		System.out.println("-----只有state-----");
-		res = quizServer.searchQuiz(null, "尚未開始");
+		res = quizService.searchQuiz(null, "尚未開始");
 		quizs = res.getQuizs();
 
 		for (Quiz quiz : quizs) {
@@ -93,7 +95,7 @@ public class QuizServiceTest {
 
 		// 兩個條件
 		System.out.println("-----兩個條件都有-----");
-		res = quizServer.searchQuiz("調", "發布中");
+		res = quizService.searchQuiz("調", "發布中");
 		quizs = res.getQuizs();
 
 		for (Quiz quiz : quizs) {
@@ -102,36 +104,44 @@ public class QuizServiceTest {
 	}
 
 	@Test
+	public void getQuizInfoTest() {
+		// 不存在的id
+		quizService.getQuizInfo(0);
+		// 存在的id
+		quizService.getQuizInfo(2);
+	}
+
+	@Test
 	public void deleteSeleTest() {
 		// 不存在seleid
 		System.out.println("-----不存在的seleid-----");
-		quizServer.deleteSelection(0);
+		quizService.deleteSelection(0);
 		// 存在seleid
 		System.out.println("-----存在的seleid-----");
-		quizServer.deleteSelection(11);
+		quizService.deleteSelection(11);
 	}
 
 	@Test
 	public void deleteQuesTest() {
 		// 不存在qid
 		System.out.println("-----不存在的qid-----");
-		quizServer.deleteQuestion(0);
+		quizService.deleteQuestion(0);
 		// 存在qid(有選項)
 		System.out.println("-----存在的qid(有選像)-----");
-		quizServer.deleteQuestion(1);
+		quizService.deleteQuestion(1);
 		// 存在qid
 		System.out.println("-----存在的qid-----");
-		quizServer.deleteQuestion(2);
+		quizService.deleteQuestion(2);
 	}
 
 	@Test
 	public void deleteQuizTest() {
 		// 不存在quizid
 		System.out.println("-----不存在的quizid-----");
-		quizServer.deleteQuiz(0);
+		quizService.deleteQuiz(0);
 		// 存在qid(有question & selection)
 		System.out.println("-----存在的quizid-----");
-		quizServer.deleteQuiz(2);
+		quizService.deleteQuiz(2);
 	}
 
 }

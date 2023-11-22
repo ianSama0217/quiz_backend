@@ -11,6 +11,8 @@ public interface QuizService {
 
 	public QuizSearchRes searchQuiz(String title, String state);
 
+	public QuizRes getQuizInfo(int id);
+	
 	public QuizRes deleteQuiz(int id);
 
 	public QuizRes deleteQuestion(int qIds);

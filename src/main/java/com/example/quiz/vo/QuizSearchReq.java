@@ -2,9 +2,9 @@ package com.example.quiz.vo;
 
 public class QuizSearchReq {
 
-	private String title;
+	private String title = "";
 
-	private String state;
+	private String state = "";
 
 	public String getTitle() {
 		return title;

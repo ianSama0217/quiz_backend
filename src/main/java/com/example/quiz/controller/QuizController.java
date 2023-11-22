@@ -28,27 +28,33 @@ public class QuizController {
 
 //	@GetMapping(value = "quiz/search")
 //	public QuizSearchRes searchQuiz(@RequestParam(required = false) QuizSearchReq req) {
-//		return service.searchQuiz(req.getTitle(), req.getState());
+//		String title = req.getTitle(); 
+//		String state = req.getState();
+//		return service.searchQuiz(title, state);
 //	}
 
 	@GetMapping(value = "quiz/search")
 	public QuizSearchRes searchQuiz(
 			/* required設為false表示參數是可以不輸入的 */
-			@RequestParam(required = false) String title,
-			@RequestParam(required = false) String state) {
+			@RequestParam(required = false) String title, @RequestParam(required = false) String state) {
 		return service.searchQuiz(title, state);
 	}
-	
+
+	@GetMapping(value = "quiz/get")
+	public QuizRes getQuizInfo(@RequestParam int id) {
+		return service.getQuizInfo(id);
+	}
+
 	@PostMapping(value = "quiz/delete")
 	public QuizRes deleteQuiz(@RequestParam int id) {
 		return service.deleteQuiz(id);
 	}
-	
+
 	@PostMapping(value = "question/delete")
 	public QuizRes deleteQuestion(@RequestParam int qId) {
 		return service.deleteQuestion(qId);
 	}
-	
+
 	@PostMapping(value = "selection/delete")
 	public QuizRes deleteSelection(@RequestParam int seleId) {
 		return service.deleteSelection(seleId);

@@ -2,6 +2,7 @@ package com.example.quiz.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -95,6 +96,39 @@ public class QuizServiceImpl implements QuizService {
 		}
 
 		return new QuizSearchRes(RtnCode.SUCCESSFUL, quizs);
+	}
+
+	@Override
+	public QuizRes getQuizInfo(int id) {
+		if (!quizDao.existsById(id)) {
+			return new QuizRes(RtnCode.QUIZ_ID_NOT_FOUND);
+		}
+
+		Optional<Quiz> quiz = quizDao.findById(id);
+		// 找出對應quizId
+		List<Question> questions = questionDao.findAllByquizId(id);
+
+		// 找出對應對應題目的qId
+		// 取得所有qId
+		List<Integer> qIds = new ArrayList<Integer>();
+		for (Question ques : questions) {
+			qIds.add(ques.getqId());
+		}
+
+		List<Selection> selections = new ArrayList<Selection>();
+		for (int qid : qIds) {
+			List<Selection> result = seleDao.findAllByqId(qid);
+			for (Selection sele : result) {
+				selections.add(sele);
+			}
+		}
+		// 用迴圈印出selections內容
+//		System.out.println("所有符合的qid的選項:");
+//		for(Selection sele :selections) {
+//			System.out.println(sele.getContent());
+//		}
+
+		return new QuizRes(RtnCode.SUCCESSFUL, quiz.get(), questions, selections);
 	}
 
 	@Transactional
