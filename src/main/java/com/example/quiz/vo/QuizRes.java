@@ -33,6 +33,13 @@ public class QuizRes {
 		this.quiz = quiz;
 	}
 
+	public QuizRes(RtnCode rtnCode, Quiz quiz, List<Question> question) {
+		super();
+		this.rtnCode = rtnCode;
+		this.quiz = quiz;
+		this.question = question;
+	}
+
 	public QuizRes(RtnCode rtnCode, Quiz quiz, List<Question> question, List<Selection> selection) {
 		super();
 		this.rtnCode = rtnCode;

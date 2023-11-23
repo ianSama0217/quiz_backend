@@ -41,27 +41,32 @@ public class QuizServiceImpl implements QuizService {
 		List<Question> questions = req.getQuestion();
 		List<Selection> selections = req.getSelection();
 
-		// id<=0 或 title是空值->跳出
-		if (quiz.getId() <= 0 || !StringUtils.hasText(quiz.getTitle())) {
-			return new QuizRes(RtnCode.QUIZ_ERROR, null);
-		}
+		// 符合條件 ->儲存問卷
+		if (StringUtils.hasText(quiz.getTitle())) {
+			quizDao.save(quiz);
 
-		quizDao.save(quiz);
+			int quizId = quiz.getId();
 
-		for (Question ques : questions) {
-			// id符合question的id->存入
-			if (quiz.getId() == ques.getQuizId()) {
-				questionDao.save(ques);
+			// 如果有question ->保存問題
+			if (questions != null) {
+				for (Question ques : questions) {
+					ques.setQuizId(quizId); // 綁定問卷id
+					questionDao.save(ques);
 
-				for (Selection sele : selections) {
-					// id符合selection的id->存入
-					if (ques.getqId() == sele.getqId()) {
-						seleDao.save(sele);
+					// 如果有selection ->保存選項
+					if (selections != null) {
+						for (Selection sele : selections) {
+							sele.setqId(ques.getqId()); // 綁定qId
+							seleDao.save(sele);
+						}
 					}
 				}
 			}
+			return new QuizRes(RtnCode.SUCCESSFUL, quiz, questions, selections);
+		} else {
+			return new QuizRes(RtnCode.QUIZ_ERROR, null);
 		}
-		return new QuizRes(RtnCode.SUCCESSFUL, quiz, questions, selections);
+
 	}
 
 	@Override

@@ -1,6 +1,8 @@
 package com.example.quiz;
 
-import java.time.LocalDate;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,11 +10,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.example.quiz.constants.RtnCode;
 import com.example.quiz.entity.Question;
 import com.example.quiz.entity.Quiz;
 import com.example.quiz.entity.Selection;
 import com.example.quiz.service.ifs.QuizService;
 import com.example.quiz.vo.QuizReq;
+import com.example.quiz.vo.QuizRes;
 import com.example.quiz.vo.QuizSearchRes;
 
 @SpringBootTest
@@ -22,46 +26,59 @@ public class QuizServiceTest {
 	private QuizService quizService;
 
 	@Test
-	public void createQuizTest() {
+	public void createQuizOnly() {
 		Quiz quiz = new Quiz();
-		quiz = new Quiz(1, "民調", "到底是藍白合還是藍白拖", "已結束", LocalDate.of(2023, 11, 17), LocalDate.of(2023, 11, 20));
 
+		// 只有問卷
+		quiz = new Quiz("測試只有問卷", null, "尚未開始", null, null);
+		QuizRes res = quizService.createQuiz(new QuizReq(quiz));
+		
+		System.out.println(res.getRtnCode().getMessage());
+	}
+
+	@Test
+	public void createQuizAndQuestion() {
+	    // 創建一個問卷對象
+	    Quiz quiz = new Quiz("吃什麼東西好哩?", null, "尚未開始", null, null);
+
+	    // 先保存問卷到數據庫
+	    QuizRes quizRes = quizService.createQuiz(new QuizReq(quiz));
+	    assertEquals(RtnCode.SUCCESSFUL, quizRes.getRtnCode()); // 確保問卷保存成功
+	    quiz = quizRes.getQuiz(); // 獲取保存到數據庫後的問卷對象
+
+	    // 使用已保存的問卷ID創建問題
+	    List<Question> questions = new ArrayList<>();
+	    questions.add(new Question(quiz.getId(), "早餐吃什麼?", null));
+	    questions.add(new Question(quiz.getId(), "午餐吃什麼?", null));
+	    questions.add(new Question(quiz.getId(), "消夜吃什麼?", null));
+
+	    // 將問題保存到數據庫
+	    QuizRes res = quizService.createQuiz(new QuizReq(quiz, questions));
+
+	    assertEquals(RtnCode.SUCCESSFUL, res.getRtnCode()); // 確保問題保存成功
+	    assertNotNull(res.getQuiz()); // 確保返回的 Quiz 對象不為空
+
+	    System.out.println(res.getRtnCode().getMessage());
+	}
+
+
+
+	@Test
+	public void createAll() {
+		int lastIndex;
+		Quiz quiz = new Quiz();
 		List<Question> questions = new ArrayList<Question>();
-		questions.add(new Question(1, 1, "猴柯配?", "radio"));
-		questions.add(new Question(1, 2, "為啥", "textarea"));
-
 		List<Selection> selections = new ArrayList<Selection>();
-		selections.add(new Selection(1, 1, "科猴配", 0));
-		selections.add(new Selection(1, 2, "猴科配", 0));
-		selections.add(new Selection(1, 3, "藍白拖", 0));
 
-		quizService.createQuiz(new QuizReq(quiz, questions, selections));
-
-		quiz = new Quiz(3, "滿意度調查", "填寫餐廳問卷滿意度", "發布中", LocalDate.of(2023, 11, 1), LocalDate.of(2023, 12, 31));
-		questions = new ArrayList<Question>();
-		questions.add(new Question(3, 6, "今天用餐滿意度?", "radio"));
-		questions.add(new Question(3, 7, "更多意見", "textarea"));
-
-		selections = new ArrayList<Selection>();
-		selections.add(new Selection(6, 13, "非常滿意", 25));
-		selections.add(new Selection(6, 14, "普通", 0));
-		selections.add(new Selection(6, 15, "非常不滿意", 0));
-
-		quizService.createQuiz(new QuizReq(quiz, questions, selections));
-
-		quiz = new Quiz(4, "人氣主播票選", "選出2023最受歡迎的主播", "尚未開始", LocalDate.of(2023, 12, 25), LocalDate.of(2023, 12, 31));
-		questions = new ArrayList<Question>();
-		questions.add(new Question(4, 8, "誰是你最喜歡的主播", "checkbox"));
-		questions.add(new Question(4, 9, "為啥", "textarea"));
-		questions.add(new Question(4, 10, "想對他說的話", "textarea"));
-
-		selections = new ArrayList<Selection>();
-		selections.add(new Selection(8, 16, "嘎痛", 0));
-		selections.add(new Selection(8, 17, "陌生人", 0));
-		selections.add(new Selection(8, 18, "拖椅子", 0));
-		selections.add(new Selection(8, 19, "館長", 0));
-
-		quizService.createQuiz(new QuizReq(quiz, questions, selections));
+//		// 問卷+問題+選項
+//		quiz = new Quiz("測試問卷+問題+選項", null, "尚未開始", null, null);
+//		questions.add(new Question(quiz.getId(), "最喜歡的vtuber?", null));
+//		// 取得陣列最後一個值
+//		lastIndex = questions.size() - 1;
+//		int qid = Integer.parseInt(questions.get(lastIndex));
+//		selections.add(new Selection( 1, "百鬼", 0));
+//
+//		questions.add(new Question(quiz.getId(), "最想去的國家?", null));
 	}
 
 	@Test
@@ -141,7 +158,7 @@ public class QuizServiceTest {
 		quizService.deleteQuiz(0);
 		// 存在qid(有question & selection)
 		System.out.println("-----存在的quizid-----");
-		quizService.deleteQuiz(2);
+		quizService.deleteQuiz(12);
 	}
 
 }

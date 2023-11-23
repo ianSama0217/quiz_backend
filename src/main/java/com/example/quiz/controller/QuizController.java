@@ -27,16 +27,15 @@ public class QuizController {
 	}
 
 //	@GetMapping(value = "quiz/search")
-//	public QuizSearchRes searchQuiz(@RequestParam(required = false) QuizSearchReq req) {
-//		String title = req.getTitle(); 
-//		String state = req.getState();
-//		return service.searchQuiz(title, state);
+//	public QuizSearchRes searchQuiz(@RequestBody QuizSearchReq req) {
+//		return service.searchQuiz(req.getTitle(), req.getState());
 //	}
 
 	@GetMapping(value = "quiz/search")
 	public QuizSearchRes searchQuiz(
 			/* required設為false表示參數是可以不輸入的 */
-			@RequestParam(required = false) String title, @RequestParam(required = false) String state) {
+			@RequestParam(required = false) String title, 
+			@RequestParam(required = false) String state) {
 		return service.searchQuiz(title, state);
 	}
 
