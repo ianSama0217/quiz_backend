@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -14,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Quiz {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 
@@ -39,9 +42,8 @@ public class Quiz {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Quiz(int id, String title, String description, String state, LocalDate startTime, LocalDate endTime) {
+	public Quiz(String title, String description, String state, LocalDate startTime, LocalDate endTime) {
 		super();
-		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.state = state;

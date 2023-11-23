@@ -2,6 +2,8 @@ package com.example.quiz.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -16,6 +18,7 @@ public class Selection {
 	private int qId;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "sele_id")
 	@JsonProperty("sele_id")
 	private int seleId;
@@ -31,10 +34,9 @@ public class Selection {
 		super();
 	}
 
-	public Selection(int qId, int seleId, String content, int ansCount) {
+	public Selection(int qId, String content, int ansCount) {
 		super();
 		this.qId = qId;
-		this.seleId = seleId;
 		this.content = content;
 		this.ansCount = ansCount;
 	}
