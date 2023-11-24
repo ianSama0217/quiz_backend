@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.example.quiz.constants.RtnCode;
 import com.example.quiz.entity.Question;
 import com.example.quiz.entity.Quiz;
-import com.example.quiz.entity.Selection;
 import com.example.quiz.service.ifs.QuizService;
 import com.example.quiz.vo.QuizReq;
 import com.example.quiz.vo.QuizRes;
@@ -29,62 +28,67 @@ public class QuizServiceTest {
 	public void createQuizOnly() {
 		Quiz quiz = new Quiz();
 
-		// ¥u¦³°İ¨÷
-		quiz = new Quiz("´ú¸Õ¥u¦³°İ¨÷", null, "©|¥¼¶}©l", null, null);
+		// åªæœ‰å•å·
+		quiz = new Quiz("æ¸¬è©¦åªæœ‰å•å·", null, "å°šæœªé–‹å§‹", null, null);
 		QuizRes res = quizService.createQuiz(new QuizReq(quiz));
-		
+
 		System.out.println(res.getRtnCode().getMessage());
 	}
 
 	@Test
-	public void createQuizAndQuestion() {
-	    // ³Ğ«Ø¤@­Ó°İ¨÷¹ï¶H
-	    Quiz quiz = new Quiz("¦Y¤°»òªF¦è¦n­ù?", null, "©|¥¼¶}©l", null, null);
+	public void createAll() {
+		// å‰µå»ºä¸€å€‹å•å·å°è±¡
+		Quiz quiz = new Quiz("åƒä»€éº¼æ±è¥¿å¥½å“©?", null, "å°šæœªé–‹å§‹", null, null);
 
-	    // ¥ı«O¦s°İ¨÷¨ì¼Æ¾Ú®w
-	    QuizRes quizRes = quizService.createQuiz(new QuizReq(quiz));
-	    assertEquals(RtnCode.SUCCESSFUL, quizRes.getRtnCode()); // ½T«O°İ¨÷«O¦s¦¨¥\
-	    quiz = quizRes.getQuiz(); // Àò¨ú«O¦s¨ì¼Æ¾Ú®w«áªº°İ¨÷¹ï¶H
+		// å…ˆä¿å­˜å•å·åˆ°æ•¸æ“šåº«
+		QuizRes quizRes = quizService.createQuiz(new QuizReq(quiz));
+		assertEquals(RtnCode.SUCCESSFUL, quizRes.getRtnCode()); // ç¢ºä¿å•å·ä¿å­˜æˆåŠŸ
+		quiz = quizRes.getQuiz(); // ç²å–ä¿å­˜åˆ°æ•¸æ“šåº«å¾Œçš„å•å·å°è±¡
 
-	    // ¨Ï¥Î¤w«O¦sªº°İ¨÷ID³Ğ«Ø°İÃD
-	    List<Question> questions = new ArrayList<>();
-	    questions.add(new Question(quiz.getId(), "¦­À\¦Y¤°»ò?", null));
-	    questions.add(new Question(quiz.getId(), "¤ÈÀ\¦Y¤°»ò?", null));
-	    questions.add(new Question(quiz.getId(), "®ø©]¦Y¤°»ò?", null));
+		// ä½¿ç”¨å·²ä¿å­˜çš„å•å·IDå‰µå»ºå•é¡Œ
+		List<Question> questions = new ArrayList<>();
+		questions.add(new Question(quiz.getId(), "æ—©é¤åƒä»€éº¼?", null, null));
+		questions.add(new Question(quiz.getId(), "åˆé¤åƒä»€éº¼?", null, null));
+		questions.add(new Question(quiz.getId(), "æ¶ˆå¤œåƒä»€éº¼?", null, null));
 
-	    // ±N°İÃD«O¦s¨ì¼Æ¾Ú®w
-	    QuizRes res = quizService.createQuiz(new QuizReq(quiz, questions));
+		// å°‡å•é¡Œä¿å­˜åˆ°æ•¸æ“šåº«
+		QuizRes res = quizService.createQuiz(new QuizReq(quiz, questions));
 
-	    assertEquals(RtnCode.SUCCESSFUL, res.getRtnCode()); // ½T«O°İÃD«O¦s¦¨¥\
-	    assertNotNull(res.getQuiz()); // ½T«Oªğ¦^ªº Quiz ¹ï¶H¤£¬°ªÅ
+		assertEquals(RtnCode.SUCCESSFUL, res.getRtnCode()); // ç¢ºä¿å•é¡Œä¿å­˜æˆåŠŸ
+		assertNotNull(res.getQuiz()); // ç¢ºä¿è¿”å›çš„ Quiz å°è±¡ä¸ç‚ºç©º
 
-	    System.out.println(res.getRtnCode().getMessage());
+		System.out.println(res.getRtnCode().getMessage());
 	}
 
-
-
 	@Test
-	public void createAll() {
-		int lastIndex;
-		Quiz quiz = new Quiz();
-		List<Question> questions = new ArrayList<Question>();
-		List<Selection> selections = new ArrayList<Selection>();
+	public void createAll2() {
+		// å‰µå»ºä¸€å€‹å•å·å°è±¡
+		Quiz quiz = new Quiz("äººæ°£VTuberæŠ•ç¥¨", null, "å·²çµæŸ", null, null);
 
-//		// °İ¨÷+°İÃD+¿ï¶µ
-//		quiz = new Quiz("´ú¸Õ°İ¨÷+°İÃD+¿ï¶µ", null, "©|¥¼¶}©l", null, null);
-//		questions.add(new Question(quiz.getId(), "³Ì³ßÅwªºvtuber?", null));
-//		// ¨ú±o°}¦C³Ì«á¤@­Ó­È
-//		lastIndex = questions.size() - 1;
-//		int qid = Integer.parseInt(questions.get(lastIndex));
-//		selections.add(new Selection( 1, "¦Ê°­", 0));
-//
-//		questions.add(new Question(quiz.getId(), "³Ì·Q¥hªº°ê®a?", null));
+		// å…ˆä¿å­˜å•å·åˆ°æ•¸æ“šåº«
+		QuizRes quizRes = quizService.createQuiz(new QuizReq(quiz));
+		assertEquals(RtnCode.SUCCESSFUL, quizRes.getRtnCode()); // ç¢ºä¿å•å·ä¿å­˜æˆåŠŸ
+		quiz = quizRes.getQuiz(); // ç²å–ä¿å­˜åˆ°æ•¸æ“šåº«å¾Œçš„å•å·å°è±¡
+
+		// ä½¿ç”¨å·²ä¿å­˜çš„å•å·IDå‰µå»ºå•é¡Œ
+		List<Question> questions = new ArrayList<>();
+		questions.add(new Question(quiz.getId(), "ä½ æœ€å–œæ­¡çš„Vtuberä¼æ¥­?", null, "cover;å½©è™¹ç¤¾;vspo"));
+		questions.add(new Question(quiz.getId(), "ä½ æœ€å–œæ­¡çš„Vtuber?", null, "äºå‘¨çµ±ä»€;æ‹–æ¤…å­;ä¹é¢äºº;é˜¿ä»€"));
+		questions.add(new Question(quiz.getId(), "ç‚ºä»€éº¼?", null, null));
+
+		// å°‡å•é¡Œä¿å­˜åˆ°æ•¸æ“šåº«
+		QuizRes res = quizService.createQuiz(new QuizReq(quiz, questions));
+
+		assertEquals(RtnCode.SUCCESSFUL, res.getRtnCode()); // ç¢ºä¿å•é¡Œä¿å­˜æˆåŠŸ
+		assertNotNull(res.getQuiz()); // ç¢ºä¿è¿”å›çš„ Quiz å°è±¡ä¸ç‚ºç©º
+
+		System.out.println(res.getRtnCode().getMessage());
 	}
 
 	@Test
 	public void searchQuizTest() {
 		// null
-		System.out.println("-----¨S¦³±ø¥ó-----");
+		System.out.println("-----æ²’æœ‰æ¢ä»¶-----");
 		QuizSearchRes res = quizService.searchQuiz(null, null);
 		List<Quiz> quizs = res.getQuizs();
 
@@ -92,27 +96,27 @@ public class QuizServiceTest {
 			System.out.println(quiz.getTitle());
 		}
 
-		// ¥u¦³title
-		System.out.println("-----¥u¦³title-----");
-		res = quizService.searchQuiz("½Õ", null);
+		// åªæœ‰title
+		System.out.println("-----åªæœ‰title-----");
+		res = quizService.searchQuiz("èª¿", null);
 		quizs = res.getQuizs();
 
 		for (Quiz quiz : quizs) {
 			System.out.println(quiz.getTitle());
 		}
 
-		// ¥u¦³state
-		System.out.println("-----¥u¦³state-----");
-		res = quizService.searchQuiz(null, "©|¥¼¶}©l");
+		// åªæœ‰state
+		System.out.println("-----åªæœ‰state-----");
+		res = quizService.searchQuiz(null, "å°šæœªé–‹å§‹");
 		quizs = res.getQuizs();
 
 		for (Quiz quiz : quizs) {
 			System.out.println(quiz.getTitle());
 		}
 
-		// ¨â­Ó±ø¥ó
-		System.out.println("-----¨â­Ó±ø¥ó³£¦³-----");
-		res = quizService.searchQuiz("½Õ", "µo¥¬¤¤");
+		// å…©å€‹æ¢ä»¶
+		System.out.println("-----å…©å€‹æ¢ä»¶éƒ½æœ‰-----");
+		res = quizService.searchQuiz("èª¿", "ç™¼å¸ƒä¸­");
 		quizs = res.getQuizs();
 
 		for (Quiz quiz : quizs) {
@@ -122,42 +126,32 @@ public class QuizServiceTest {
 
 	@Test
 	public void getQuizInfoTest() {
-		// ¤£¦s¦bªºid
+		// ä¸å­˜åœ¨çš„id
 		quizService.getQuizInfo(0);
-		// ¦s¦bªºid
+		// å­˜åœ¨çš„id
 		quizService.getQuizInfo(2);
 	}
 
 	@Test
-	public void deleteSeleTest() {
-		// ¤£¦s¦bseleid
-		System.out.println("-----¤£¦s¦bªºseleid-----");
-		quizService.deleteSelection(0);
-		// ¦s¦bseleid
-		System.out.println("-----¦s¦bªºseleid-----");
-		quizService.deleteSelection(11);
-	}
-
-	@Test
 	public void deleteQuesTest() {
-		// ¤£¦s¦bqid
-		System.out.println("-----¤£¦s¦bªºqid-----");
+		// ä¸å­˜åœ¨qid
+		System.out.println("-----ä¸å­˜åœ¨çš„qid-----");
 		quizService.deleteQuestion(0);
-		// ¦s¦bqid(¦³¿ï¶µ)
-		System.out.println("-----¦s¦bªºqid(¦³¿ï¹³)-----");
+		// å­˜åœ¨qid(æœ‰é¸é …)
+		System.out.println("-----å­˜åœ¨çš„qid(æœ‰é¸åƒ)-----");
 		quizService.deleteQuestion(1);
-		// ¦s¦bqid
-		System.out.println("-----¦s¦bªºqid-----");
+		// å­˜åœ¨qid
+		System.out.println("-----å­˜åœ¨çš„qid-----");
 		quizService.deleteQuestion(2);
 	}
 
 	@Test
 	public void deleteQuizTest() {
-		// ¤£¦s¦bquizid
-		System.out.println("-----¤£¦s¦bªºquizid-----");
+		// ä¸å­˜åœ¨quizid
+		System.out.println("-----ä¸å­˜åœ¨çš„quizid-----");
 		quizService.deleteQuiz(0);
-		// ¦s¦bqid(¦³question & selection)
-		System.out.println("-----¦s¦bªºquizid-----");
+		// å­˜åœ¨qid(æœ‰question & selection)
+		System.out.println("-----å­˜åœ¨çš„quizid-----");
 		quizService.deleteQuiz(12);
 	}
 

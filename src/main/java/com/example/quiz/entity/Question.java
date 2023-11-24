@@ -31,15 +31,19 @@ public class Question {
 	@JsonProperty("selection_type")
 	private String seleType;
 
+	@Column(name = "selection")
+	private String selection;
+
 	public Question() {
 		super();
 	}
 
-	public Question(int quizId, String qName, String seleType) {
+	public Question(int quizId, String qName, String seleType, String selection) {
 		super();
 		this.quizId = quizId;
 		this.qName = qName;
 		this.seleType = seleType;
+		this.selection = selection;
 	}
 
 	public int getQuizId() {

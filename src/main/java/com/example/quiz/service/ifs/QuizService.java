@@ -17,6 +17,4 @@ public interface QuizService {
 
 	public QuizRes deleteQuestion(int qIds);
 
-	public QuizRes deleteSelection(int seleId);
-
 }

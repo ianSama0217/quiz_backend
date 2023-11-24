@@ -5,7 +5,6 @@ import java.util.List;
 import com.example.quiz.constants.RtnCode;
 import com.example.quiz.entity.Question;
 import com.example.quiz.entity.Quiz;
-import com.example.quiz.entity.Selection;
 
 public class QuizRes {
 
@@ -14,8 +13,6 @@ public class QuizRes {
 	private Quiz quiz;
 
 	private List<Question> question;
-
-	private List<Selection> selection;
 
 	public QuizRes() {
 		super();
@@ -38,14 +35,6 @@ public class QuizRes {
 		this.rtnCode = rtnCode;
 		this.quiz = quiz;
 		this.question = question;
-	}
-
-	public QuizRes(RtnCode rtnCode, Quiz quiz, List<Question> question, List<Selection> selection) {
-		super();
-		this.rtnCode = rtnCode;
-		this.quiz = quiz;
-		this.question = question;
-		this.selection = selection;
 	}
 
 	public RtnCode getRtnCode() {
@@ -71,13 +60,4 @@ public class QuizRes {
 	public void setQuestion(List<Question> question) {
 		this.question = question;
 	}
-
-	public List<Selection> getSelection() {
-		return selection;
-	}
-
-	public void setSelection(List<Selection> selection) {
-		this.selection = selection;
-	}
-
 }

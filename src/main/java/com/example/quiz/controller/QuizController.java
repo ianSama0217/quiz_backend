@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.quiz.service.ifs.QuizService;
 import com.example.quiz.vo.QuizReq;
 import com.example.quiz.vo.QuizRes;
-import com.example.quiz.vo.QuizSearchReq;
 import com.example.quiz.vo.QuizSearchRes;
 
 @CrossOrigin
@@ -25,11 +24,6 @@ public class QuizController {
 	public QuizRes createQuiz(@RequestBody QuizReq req) {
 		return service.createQuiz(req);
 	}
-
-//	@GetMapping(value = "quiz/search")
-//	public QuizSearchRes searchQuiz(@RequestBody QuizSearchReq req) {
-//		return service.searchQuiz(req.getTitle(), req.getState());
-//	}
 
 	@GetMapping(value = "quiz/search")
 	public QuizSearchRes searchQuiz(
@@ -52,11 +46,6 @@ public class QuizController {
 	@PostMapping(value = "question/delete")
 	public QuizRes deleteQuestion(@RequestParam int qId) {
 		return service.deleteQuestion(qId);
-	}
-
-	@PostMapping(value = "selection/delete")
-	public QuizRes deleteSelection(@RequestParam int seleId) {
-		return service.deleteSelection(seleId);
 	}
 
 }
