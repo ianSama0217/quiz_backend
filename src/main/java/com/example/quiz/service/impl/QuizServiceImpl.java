@@ -58,12 +58,6 @@ public class QuizServiceImpl implements QuizService {
 	}
 
 	@Override
-	public QuizRes updateQuiz(QuizReq req) {
-
-		return null;
-	}
-
-	@Override
 	public QuizSearchRes searchQuiz(String title, String state) {
 		List<Quiz> quizs = new ArrayList<Quiz>();
 
