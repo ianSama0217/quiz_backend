@@ -133,19 +133,6 @@ public class QuizServiceTest {
 	}
 
 	@Test
-	public void deleteQuesTest() {
-		// 不存在qid
-		System.out.println("-----不存在的qid-----");
-		quizService.deleteQuestion(0);
-		// 存在qid(有選項)
-		System.out.println("-----存在的qid(有選像)-----");
-		quizService.deleteQuestion(1);
-		// 存在qid
-		System.out.println("-----存在的qid-----");
-		quizService.deleteQuestion(2);
-	}
-
-	@Test
 	public void deleteQuizTest() {
 		// 不存在quizid
 		System.out.println("-----不存在的quizid-----");

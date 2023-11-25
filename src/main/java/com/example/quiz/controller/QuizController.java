@@ -42,10 +42,4 @@ public class QuizController {
 	public QuizRes deleteQuiz(@RequestParam int id) {
 		return service.deleteQuiz(id);
 	}
-
-	@PostMapping(value = "question/delete")
-	public QuizRes deleteQuestion(@RequestParam int qId) {
-		return service.deleteQuestion(qId);
-	}
-
 }

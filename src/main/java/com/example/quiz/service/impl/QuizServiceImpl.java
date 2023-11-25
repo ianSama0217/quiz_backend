@@ -122,18 +122,4 @@ public class QuizServiceImpl implements QuizService {
 		}
 		return new QuizRes(RtnCode.QUIZ_ID_NOT_FOUND);
 	}
-
-	@Transactional
-	@Override
-	public QuizRes deleteQuestion(int qId) {
-
-		if (questionDao.existsById(qId)) {
-			questionDao.deleteById(qId);
-
-			return new QuizRes(RtnCode.SUCCESSFUL);
-		}
-
-		return new QuizRes(RtnCode.QUESTION_ID_NOT_FOUND);
-	}
-
 }
