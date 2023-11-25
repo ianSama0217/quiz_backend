@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.example.quiz.constants.RtnCode;
 import com.example.quiz.entity.Question;
 import com.example.quiz.entity.Quiz;
+import com.example.quiz.repository.QuestionDao;
+import com.example.quiz.repository.QuizDao;
 import com.example.quiz.service.ifs.QuizService;
 import com.example.quiz.vo.QuizReq;
 import com.example.quiz.vo.QuizRes;
@@ -93,16 +95,16 @@ public class QuizServiceTest {
 		List<Quiz> quizs = res.getQuizs();
 
 		for (Quiz quiz : quizs) {
-			System.out.println(quiz.getTitle());
+			System.out.println(quiz.getId());
 		}
 
 		// 只有title
 		System.out.println("-----只有title-----");
-		res = quizService.searchQuiz("調", null);
+		res = quizService.searchQuiz("1", null);
 		quizs = res.getQuizs();
 
 		for (Quiz quiz : quizs) {
-			System.out.println(quiz.getTitle());
+			System.out.println(quiz.getId());
 		}
 
 		// 只有state
@@ -111,16 +113,16 @@ public class QuizServiceTest {
 		quizs = res.getQuizs();
 
 		for (Quiz quiz : quizs) {
-			System.out.println(quiz.getTitle());
+			System.out.println(quiz.getId());
 		}
 
 		// 兩個條件
 		System.out.println("-----兩個條件都有-----");
-		res = quizService.searchQuiz("調", "發布中");
+		res = quizService.searchQuiz("1", "尚未開始");
 		quizs = res.getQuizs();
 
 		for (Quiz quiz : quizs) {
-			System.out.println(quiz.getTitle());
+			System.out.println(quiz.getId());
 		}
 	}
 
@@ -142,4 +144,15 @@ public class QuizServiceTest {
 		quizService.deleteQuiz(12);
 	}
 
+	@Autowired
+	private QuizDao quizDao;
+
+	@Autowired
+	private QuestionDao questionDao;
+
+	@Test
+	public void deleteAll() {
+		quizDao.deleteAll();
+		questionDao.deleteAll();
+	}
 }
