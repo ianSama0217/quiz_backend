@@ -38,6 +38,13 @@ public class Question {
 		super();
 	}
 
+	public Question(String qName, String seleType, String selection) {
+		super();
+		this.qName = qName;
+		this.seleType = seleType;
+		this.selection = selection;
+	}
+
 	public Question(int quizId, String qName, String seleType, String selection) {
 		super();
 		this.quizId = quizId;
@@ -76,6 +83,14 @@ public class Question {
 
 	public void setSeleType(String seleType) {
 		this.seleType = seleType;
+	}
+
+	public String getSelection() {
+		return selection;
+	}
+
+	public void setSelection(String selection) {
+		this.selection = selection;
 	}
 
 }
