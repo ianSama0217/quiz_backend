@@ -3,6 +3,7 @@ package com.example.quiz;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.example.quiz.constants.RtnCode;
 import com.example.quiz.entity.Question;
 import com.example.quiz.entity.Quiz;
+import com.example.quiz.entity.Userinfo;
 import com.example.quiz.repository.QuestionDao;
 import com.example.quiz.repository.QuizDao;
 import com.example.quiz.service.ifs.QuizService;
@@ -62,10 +64,12 @@ public class QuizServiceTest {
 		System.out.println(res.getRtnCode().getMessage());
 	}
 
+	/* 創建過期資料 */
 	@Test
 	public void createAll2() {
 		// 創建一個問卷對象
-		Quiz quiz = new Quiz("人氣VTuber投票", null, "已結束", null, null);
+		Quiz quiz = new Quiz("人氣實況主投票", "票選2023最後歡迎的年度實況主", "已結束", LocalDate.of(2023, 11, 1),
+				LocalDate.of(2023, 11, 15));
 
 		// 先保存問卷到數據庫
 		QuizRes quizRes = quizService.createQuiz(new QuizReq(quiz));
@@ -74,9 +78,9 @@ public class QuizServiceTest {
 
 		// 使用已保存的問卷ID創建問題
 		List<Question> questions = new ArrayList<>();
-		questions.add(new Question(quiz.getId(), "你最喜歡的Vtuber企業?", null, "cover;彩虹社;vspo"));
-		questions.add(new Question(quiz.getId(), "你最喜歡的Vtuber?", null, "亞周統什;拖椅子;九面人;阿什"));
-		questions.add(new Question(quiz.getId(), "為什麼?", null, null));
+		questions.add(new Question(quiz.getId(), "你最喜歡的娛樂公司?", "radio", "蹦挖娛樂;瘋狗娛樂;螞蟻娛樂;其他"));
+		questions.add(new Question(quiz.getId(), "你最喜歡的Vtuber?", "radio", "亞周統什;拖椅子;九面人;陌生人"));
+		questions.add(new Question(quiz.getId(), "為什麼?", "textarea", ""));
 
 		// 將問題保存到數據庫
 		QuizRes res = quizService.createQuiz(new QuizReq(quiz, questions));
@@ -142,6 +146,17 @@ public class QuizServiceTest {
 		// 存在qid(有question & selection)
 		System.out.println("-----存在的quizid-----");
 		quizService.deleteQuiz(12);
+	}
+
+	@Test
+	public void createAnsTest() {
+		Userinfo userinfo = new Userinfo(113, "123", "77777gmail", "8787", "A;B;C");
+		quizService.createQuizAns(userinfo);
+	}
+
+	@Test
+	public void getAnsTest() {
+		quizService.getQuizAns(113);
 	}
 
 	@Autowired

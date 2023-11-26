@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.quiz.entity.Userinfo;
 import com.example.quiz.service.ifs.QuizService;
+import com.example.quiz.vo.QuizAnsRes;
 import com.example.quiz.vo.QuizReq;
 import com.example.quiz.vo.QuizRes;
 import com.example.quiz.vo.QuizSearchRes;
@@ -25,17 +27,26 @@ public class QuizController {
 		return service.createQuiz(req);
 	}
 
+	@PostMapping(value = "answer/create")
+	public QuizAnsRes createQuizAns(@RequestBody Userinfo userinfo) {
+		return service.createQuizAns(userinfo);
+	}
+
 	@GetMapping(value = "quiz/search")
 	public QuizSearchRes searchQuiz(
 			/* required設為false表示參數是可以不輸入的 */
-			@RequestParam(required = false) String title, 
-			@RequestParam(required = false) String state) {
+			@RequestParam(required = false) String title, @RequestParam(required = false) String state) {
 		return service.searchQuiz(title, state);
 	}
 
 	@GetMapping(value = "quiz/get")
 	public QuizRes getQuizInfo(@RequestParam int id) {
 		return service.getQuizInfo(id);
+	}
+	
+	@GetMapping(value = "answer/get")
+	public QuizAnsRes getQuizAns(@RequestParam int id) {
+		return service.getQuizAns(id);
 	}
 
 	@PostMapping(value = "quiz/delete")

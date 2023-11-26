@@ -13,10 +13,12 @@ import org.springframework.util.StringUtils;
 import com.example.quiz.constants.RtnCode;
 import com.example.quiz.entity.Question;
 import com.example.quiz.entity.Quiz;
-
+import com.example.quiz.entity.Userinfo;
 import com.example.quiz.repository.QuestionDao;
 import com.example.quiz.repository.QuizDao;
+import com.example.quiz.repository.UserinfoDao;
 import com.example.quiz.service.ifs.QuizService;
+import com.example.quiz.vo.QuizAnsRes;
 import com.example.quiz.vo.QuizReq;
 import com.example.quiz.vo.QuizRes;
 import com.example.quiz.vo.QuizSearchRes;
@@ -29,6 +31,9 @@ public class QuizServiceImpl implements QuizService {
 
 	@Autowired
 	private QuestionDao questionDao;
+
+	@Autowired
+	private UserinfoDao userinfoDao;
 
 	@Override
 	public QuizRes createQuiz(QuizReq req) {
@@ -55,6 +60,28 @@ public class QuizServiceImpl implements QuizService {
 		} else {
 			return new QuizRes(RtnCode.QUIZ_ERROR, null);
 		}
+	}
+
+	@Override
+	public QuizAnsRes createQuizAns(Userinfo userinfo) {
+		/* id對應問卷 && 必填資料有填寫 -> 儲存資料 */
+		if (StringUtils.hasText(userinfo.getEmail()) && //
+				StringUtils.hasText(userinfo.getAns()) && //
+				StringUtils.hasText(userinfo.getName())) {
+			userinfoDao.save(userinfo);
+			return new QuizAnsRes(RtnCode.SUCCESSFUL, userinfo);
+		}
+
+		if(!StringUtils.hasText(userinfo.getEmail())) {
+			System.out.println("email");
+		}
+		if(!StringUtils.hasText(userinfo.getName())) {
+			System.out.println("name");
+		}
+		if(!StringUtils.hasText(userinfo.getAns())) {
+			System.out.println("ans");
+		}
+		return new QuizAnsRes(RtnCode.QUIZ_ERROR);
 	}
 
 	@Override
@@ -105,6 +132,24 @@ public class QuizServiceImpl implements QuizService {
 		return new QuizRes(RtnCode.SUCCESSFUL, quiz.get(), questions);
 	}
 
+	@Override
+	public QuizAnsRes getQuizAns(int id) {
+		if (!quizDao.existsById(id)) {
+			return new QuizAnsRes(RtnCode.QUIZ_ID_NOT_FOUND);
+		}
+
+		// 找出對應quizId
+		List<Userinfo> userinfos = userinfoDao.findAllByquizId(id);
+
+		// 找出對應對應題目的ansId
+		// 取得所有ansId
+		List<Integer> ansIds = new ArrayList<Integer>();
+		for (Userinfo user : userinfos) {
+			ansIds.add(user.getAnsId());
+		}
+		return new QuizAnsRes(RtnCode.SUCCESSFUL, userinfos);
+	}
+
 	@Transactional
 	@Override
 	public QuizRes deleteQuiz(int id) {
@@ -122,4 +167,5 @@ public class QuizServiceImpl implements QuizService {
 		}
 		return new QuizRes(RtnCode.QUIZ_ID_NOT_FOUND);
 	}
+
 }
