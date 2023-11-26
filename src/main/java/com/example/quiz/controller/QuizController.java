@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.quiz.entity.Userinfo;
 import com.example.quiz.service.ifs.QuizService;
+import com.example.quiz.vo.CreateAnsReq;
 import com.example.quiz.vo.QuizAnsRes;
 import com.example.quiz.vo.QuizReq;
 import com.example.quiz.vo.QuizRes;
@@ -28,8 +28,8 @@ public class QuizController {
 	}
 
 	@PostMapping(value = "answer/create")
-	public QuizAnsRes createQuizAns(@RequestBody Userinfo userinfo) {
-		return service.createQuizAns(userinfo);
+	public QuizAnsRes createQuizAns(@RequestBody CreateAnsReq req) {
+		return service.createQuizAns(req);
 	}
 
 	@GetMapping(value = "quiz/search")

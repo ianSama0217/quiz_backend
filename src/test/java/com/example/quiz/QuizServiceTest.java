@@ -18,6 +18,7 @@ import com.example.quiz.entity.Userinfo;
 import com.example.quiz.repository.QuestionDao;
 import com.example.quiz.repository.QuizDao;
 import com.example.quiz.service.ifs.QuizService;
+import com.example.quiz.vo.CreateAnsReq;
 import com.example.quiz.vo.QuizReq;
 import com.example.quiz.vo.QuizRes;
 import com.example.quiz.vo.QuizSearchRes;
@@ -150,8 +151,11 @@ public class QuizServiceTest {
 
 	@Test
 	public void createAnsTest() {
-		Userinfo userinfo = new Userinfo(113, "123", "77777gmail", "8787", "A;B;C");
-		quizService.createQuizAns(userinfo);
+
+		List<Userinfo> userinfo = new ArrayList<Userinfo>();
+		userinfo.add(new Userinfo(113, "測試", "123gmail", "8787", "1;7;3"));
+		CreateAnsReq req = new CreateAnsReq(userinfo);
+		quizService.createQuizAns(req);
 	}
 
 	@Test

@@ -18,6 +18,7 @@ import com.example.quiz.repository.QuestionDao;
 import com.example.quiz.repository.QuizDao;
 import com.example.quiz.repository.UserinfoDao;
 import com.example.quiz.service.ifs.QuizService;
+import com.example.quiz.vo.CreateAnsReq;
 import com.example.quiz.vo.QuizAnsRes;
 import com.example.quiz.vo.QuizReq;
 import com.example.quiz.vo.QuizRes;
@@ -63,25 +64,17 @@ public class QuizServiceImpl implements QuizService {
 	}
 
 	@Override
-	public QuizAnsRes createQuizAns(Userinfo userinfo) {
+	public QuizAnsRes createQuizAns(CreateAnsReq req) {
 		/* id對應問卷 && 必填資料有填寫 -> 儲存資料 */
-		if (StringUtils.hasText(userinfo.getEmail()) && //
-				StringUtils.hasText(userinfo.getAns()) && //
-				StringUtils.hasText(userinfo.getName())) {
-			userinfoDao.save(userinfo);
-			return new QuizAnsRes(RtnCode.SUCCESSFUL, userinfo);
+		for (Userinfo user : req.getUserinfos()) {
+			if (StringUtils.hasText(user.getEmail()) && //
+					StringUtils.hasText(user.getAns()) && //
+					StringUtils.hasText(user.getName())) {
+				userinfoDao.saveAll(req.getUserinfos());
+				return new QuizAnsRes(RtnCode.SUCCESSFUL, req.getUserinfos());
+			}
 		}
-
-		if(!StringUtils.hasText(userinfo.getEmail())) {
-			System.out.println("email");
-		}
-		if(!StringUtils.hasText(userinfo.getName())) {
-			System.out.println("name");
-		}
-		if(!StringUtils.hasText(userinfo.getAns())) {
-			System.out.println("ans");
-		}
-		return new QuizAnsRes(RtnCode.QUIZ_ERROR);
+		return new QuizAnsRes(RtnCode.QUIZ_ERROR, null);
 	}
 
 	@Override

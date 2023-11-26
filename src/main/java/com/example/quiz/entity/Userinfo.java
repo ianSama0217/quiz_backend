@@ -46,8 +46,9 @@ public class Userinfo {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Userinfo(String name, String phoneNumber, String email, String ans, LocalDateTime dateTime) {
+	public Userinfo(int quizId, String name, String phoneNumber, String email, String ans, LocalDateTime dateTime) {
 		super();
+		this.quizId = quizId;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
