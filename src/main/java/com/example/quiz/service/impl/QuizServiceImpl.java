@@ -115,13 +115,6 @@ public class QuizServiceImpl implements QuizService {
 		// 找出對應quizId
 		List<Question> questions = questionDao.findAllByquizId(id);
 
-		// 找出對應對應題目的qId
-		// 取得所有qId
-		List<Integer> qIds = new ArrayList<Integer>();
-		for (Question ques : questions) {
-			qIds.add(ques.getqId());
-		}
-
 		return new QuizRes(RtnCode.SUCCESSFUL, quiz.get(), questions);
 	}
 
@@ -134,12 +127,6 @@ public class QuizServiceImpl implements QuizService {
 		// 找出對應quizId
 		List<Userinfo> userinfos = userinfoDao.findAllByquizId(id);
 
-		// 找出對應對應題目的ansId
-		// 取得所有ansId
-		List<Integer> ansIds = new ArrayList<Integer>();
-		for (Userinfo user : userinfos) {
-			ansIds.add(user.getAnsId());
-		}
 		return new QuizAnsRes(RtnCode.SUCCESSFUL, userinfos);
 	}
 
