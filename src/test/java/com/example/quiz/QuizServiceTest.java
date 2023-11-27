@@ -146,7 +146,7 @@ public class QuizServiceTest {
 		quizService.deleteQuiz(0);
 		// 存在qid(有question & selection)
 		System.out.println("-----存在的quizid-----");
-		quizService.deleteQuiz(12);
+		quizService.deleteQuiz(113);
 	}
 
 	@Test

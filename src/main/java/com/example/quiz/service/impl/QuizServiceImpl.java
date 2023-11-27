@@ -156,6 +156,13 @@ public class QuizServiceImpl implements QuizService {
 				questionDao.deleteAllByquizId(id);
 				System.out.println("成功刪除問卷內的題目");
 			}
+
+			// 如果quiz底下還對應的userinfo也要刪除
+			if (userinfoDao.existsByquizId(id)) {
+
+				userinfoDao.deleteAllByquizId(id);
+				System.out.println("成功刪除問卷作答紀錄");
+			}
 			return new QuizRes(RtnCode.SUCCESSFUL);
 		}
 		return new QuizRes(RtnCode.QUIZ_ID_NOT_FOUND);

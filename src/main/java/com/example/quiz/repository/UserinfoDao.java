@@ -10,12 +10,17 @@ import com.example.quiz.entity.Userinfo;
 @Repository
 public interface UserinfoDao extends JpaRepository<Userinfo, String> {
 	/**
-	 * 尋找question對應quizid的資料是否存在
+	 * 尋找userinfo對應quizid的資料是否存在
 	 **/
 	public boolean existsByquizId(int quizId);
 
 	/**
-	 * 尋找question對應quizid的資料
+	 * 尋找userinfo對應quizid的資料
 	 **/
 	public List<Userinfo> findAllByquizId(int quizId);
+
+	/**
+	 * 將對應quizid的userinfo資料也刪除
+	 **/
+	public void deleteAllByquizId(int quizId);
 }
