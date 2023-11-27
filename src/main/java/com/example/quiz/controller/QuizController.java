@@ -27,7 +27,7 @@ public class QuizController {
 		return service.createQuiz(req);
 	}
 
-	@PostMapping(value = "answer/create")
+	@PostMapping(value = "quiz/create/answer")
 	public QuizAnsRes createQuizAns(@RequestBody CreateAnsReq req) {
 		return service.createQuizAns(req);
 	}
@@ -44,7 +44,7 @@ public class QuizController {
 		return service.getQuizInfo(id);
 	}
 	
-	@GetMapping(value = "answer/get")
+	@GetMapping(value = "quiz/get/answer")
 	public QuizAnsRes getQuizAns(@RequestParam int id) {
 		return service.getQuizAns(id);
 	}
