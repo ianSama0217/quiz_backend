@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.example.quiz.entity.Userinfo;
 
 @Repository
-public interface UserinfoDao extends JpaRepository<Userinfo, String> {
+public interface UserinfoDao extends JpaRepository<Userinfo, Integer> {
 	/**
 	 * 尋找userinfo對應quizid的資料是否存在
 	 **/

@@ -15,6 +15,8 @@ public interface QuizService {
 
 	public QuizRes getQuizInfo(int id);
 
+	public QuizAnsRes getUserAns(int id);
+	
 	public QuizAnsRes getQuizAns(int id);
 
 	public QuizRes deleteQuiz(int id);

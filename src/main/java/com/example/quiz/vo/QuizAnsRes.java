@@ -8,6 +8,8 @@ import com.example.quiz.entity.Userinfo;
 public class QuizAnsRes {
 	private RtnCode rtnCode;
 
+	private Userinfo userinfo;
+
 	private List<Userinfo> userinfos;
 
 	public QuizAnsRes() {
@@ -20,6 +22,14 @@ public class QuizAnsRes {
 		this.rtnCode = rtnCode;
 	}
 
+	// 查看個人作答紀錄
+	public QuizAnsRes(Userinfo userinfo, RtnCode rtnCode) {
+		super();
+		this.userinfo = userinfo;
+		this.rtnCode = rtnCode;
+	}
+
+	// 查看後台統計圖表
 	public QuizAnsRes(RtnCode rtnCode, List<Userinfo> userinfos) {
 		super();
 		this.rtnCode = rtnCode;
@@ -32,6 +42,14 @@ public class QuizAnsRes {
 
 	public void setRtnCode(RtnCode rtnCode) {
 		this.rtnCode = rtnCode;
+	}
+
+	public Userinfo getUserinfo() {
+		return userinfo;
+	}
+
+	public void setUserinfo(Userinfo userinfo) {
+		this.userinfo = userinfo;
 	}
 
 	public List<Userinfo> getUserinfos() {

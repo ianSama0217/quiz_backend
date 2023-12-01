@@ -43,7 +43,12 @@ public class QuizController {
 	public QuizRes getQuizInfo(@RequestParam int id) {
 		return service.getQuizInfo(id);
 	}
-	
+
+	@GetMapping(value = "quiz/get/user")
+	public QuizAnsRes getUserAns(@RequestParam int id) {
+		return service.getUserAns(id);
+	}
+
 	@GetMapping(value = "quiz/get/answer")
 	public QuizAnsRes getQuizAns(@RequestParam int id) {
 		return service.getQuizAns(id);

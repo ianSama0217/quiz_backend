@@ -119,6 +119,15 @@ public class QuizServiceImpl implements QuizService {
 	}
 
 	@Override
+	public QuizAnsRes getUserAns(int id) {
+		if (!userinfoDao.existsById(id)) {
+			return new QuizAnsRes(RtnCode.QUIZ_ERROR);
+		}
+		Optional<Userinfo> userinfo = userinfoDao.findById(id);
+		return new QuizAnsRes(userinfo.get(), RtnCode.SUCCESSFUL);
+	}
+
+	@Override
 	public QuizAnsRes getQuizAns(int id) {
 		if (!quizDao.existsById(id)) {
 			return new QuizAnsRes(RtnCode.QUIZ_ID_NOT_FOUND);
